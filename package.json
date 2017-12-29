@@ -1,0 +1,48 @@
+{
+  "name": "ar-webapp",
+  "version": "1.0.0",
+  "description": "Autism Rocks Web Application",
+  "main": "src/ar.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/",
+    "build": "webpack --env.production true",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/autism-rocks/ar-webapp.git"
+  },
+  "keywords": [
+    "autism",
+    "webix",
+    "health",
+    "open-source",
+    "autism-rocks"
+  ],
+  "author": "José Fonseca",
+  "license": "GNU GPLv3",
+  "bugs": {
+    "url": "https://github.com/autism-rocks/ar-webapp/issues"
+  },
+  "homepage": "https://github.com/autism-rocks/ar-webapp#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.7.2",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  },
+  "dependencies": {
+    "node-polyglot": "^2.2.2",
+    "polyglot": "^0.5.0",
+    "webix-jet": "^1.0.0"
+  }
+}

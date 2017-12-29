@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Autism Rocks</title>
+	<script type="text/javascript" src="//cdn.webix.com/5.1/webix.js"></script>
+	<link rel="stylesheet" href="//cdn.webix.com/site/skins/material.css?v=5.1.0" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="/dist/arwebapp.css">
+	<script type="text/javascript" src="/dist/arwebapp.js"></script>
+	<script type="text/javascript">
+        if (window.location.hash && window.location.hash == '#_=_') {
+            if (window.history && history.pushState) {
+                window.history.pushState("", document.title, window.location.pathname);
+            } else {
+                // Prevent scrolling by storing the page's current scroll offset
+                var scroll = {
+                    top: document.body.scrollTop,
+                    left: document.body.scrollLeft
+                };
+                window.location.hash = '';
+                // Restore the scroll offset, should be flicker free
+                document.body.scrollTop = scroll.top;
+                document.body.scrollLeft = scroll.left;
+            }
+        }
+	</script>
+</head>
+<body>
+</body>
+</html>
