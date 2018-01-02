@@ -1,6 +1,6 @@
 let userProfile = null;
 
-let refreshProfile = () => webix.ajax('/ar/profile')
+let refreshProfile = () => webix.ajax('/ar/user/profile')
     .then((profile) => {
         userProfile = profile.json();
         return userProfile;

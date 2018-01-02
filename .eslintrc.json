@@ -7,7 +7,9 @@
     "webix": true,
     "scheduler": true,
     "VERSION": true,
-    "PRODUCTION": true
+    "PRODUCTION": true,
+    "$$": true,
+    "console": true
   },
   "extends": "eslint:recommended",
   "parserOptions": {

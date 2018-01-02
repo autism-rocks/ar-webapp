@@ -1,5 +1,6 @@
 import {JetView} from 'webix-jet';
-// import i18n from 'locales/i18n';
+import i18n from 'locales/i18n';
+import User from 'models/user';
 
 
 //Top toolbar
@@ -62,9 +63,20 @@ let layout = {
     ]
 };
 
-export default class Home extends JetView {
+export default class App extends JetView {
     config() {
-        return layout;
+       return layout;
+    }
+
+    init() {
+        return User.refreshProfile().then((profile) => {
+            if (!profile || profile.organizations.length == 0) {
+                this.show('/registration');
+            }
+        }).catch((err) => {
+            window.console.error(err);
+            this.show('/home');
+        });
     }
 
 }

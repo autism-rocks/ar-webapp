@@ -1,8 +1,8 @@
 import i18n from '../locales/i18n.js';
 import User from '../models/user';
 import {JetView} from 'webix-jet';
-import userForm from '../modules/userRegistrationForm';
-import organizationForm from '../modules/organizationRegistrationForm';
+import userForm from '../modules/userDetailsForm';
+import organizationForm from '../modules/organizationDetailsForm';
 
 let userProfile = null;
 
@@ -12,11 +12,117 @@ const registration = {
     rows: [
         {
             header: '<span class="webix_icon fa-male"></span>' + i18n.t('registration.connect.title'),
-            body: userForm
+            body: {
+                rows: [
+                    userForm,
+                    {
+                        margin: 10,
+                        borderless: true,
+                        cols: [
+                            {},
+                            {
+                                view: 'button',
+                                label: i18n.t('registration.connect.continue'),
+                                gravity: 0.3,
+                                type: 'form',
+                                align: 'right',
+                                click: function () {
+                                    var form = $$('userDetailsForm');
+
+                                    if (form.validate()) {
+                                        webix.ajax()
+                                            .headers({
+                                                'Content-type': 'application/json'
+                                            })
+                                            .post('/ar/user/profile', JSON.stringify(form.getValues()))
+                                            .then((res) => {
+                                                res = res.json();
+                                                webix.message({
+                                                    text: i18n.t(res.message),
+                                                    type: res.status.toLocaleLowerCase(),
+                                                    expire: 4000
+                                                });
+                                                if (res.status == 'SUCCESS') {
+                                                    form.$scope.app.show('/app/dashboard');
+                                                }
+                                            })
+                                            .fail((res) => {
+                                                window.console.error(res);
+                                                let errorMessage = i18n.t('ERROR_UPDATING_PROFILE');
+                                                if (res.responseText) {
+                                                    errorMessage = i18n.t(JSON.parse(res.responseText).message);
+                                                }
+                                                webix.message({
+                                                    text: errorMessage,
+                                                    type: 'error',
+                                                    expire: 4000
+                                                });
+                                            });
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
         },
         {
             header: '<span class="webix_icon fa-users"></span>' + i18n.t('registration.create.title'),
-            body: organizationForm,
+            body: {
+                rows: [
+                    organizationForm,
+                    {
+                        margin: 10,
+                        paddingX: 2,
+                        borderless: true,
+                        cols: [
+                            {},
+                            {
+                                id: 'submitOrgButton',
+                                disabled: true,
+                                view: 'button',
+                                label: i18n.t('registration.create.continue'),
+                                gravity: 0.3,
+                                type: 'form',
+                                align: 'right',
+                                click: function () {
+                                    var form = $$('organizationDetailsForm');
+
+                                    if (form.validate()) {
+                                        webix.ajax()
+                                            .headers({
+                                                'Content-type': 'application/json'
+                                            })
+                                            .post('/ar/organizations', JSON.stringify(form.getValues()))
+                                            .then((res) => {
+                                                res = res.json();
+                                                webix.message({
+                                                    text: i18n.t(res.message),
+                                                    type: res.status.toLocaleLowerCase(),
+                                                    expire: 4000
+                                                });
+                                                if (res.status == 'SUCCESS') {
+                                                    form.$scope.app.show('/app/dashboard');
+                                                }
+                                            })
+                                            .fail((res) => {
+                                                console.error(res);
+                                                let errorMessage = i18n.t('ERROR_CREATING_ORGANIZATION');
+                                                if (res.responseText) {
+                                                    errorMessage = i18n.t(JSON.parse(res.responseText).message);
+                                                }
+                                                webix.message({
+                                                    text: errorMessage,
+                                                    type: 'error',
+                                                    expire: 4000
+                                                });
+                                            });
+                                    }
+                                }
+                            }
+                        ]
+                    }]
+            },
             collapsed: true
         }
     ]
@@ -62,6 +168,14 @@ export default class Registration extends JetView {
         return User.getProfile().then((profile) => {
             userProfile = profile;
             return layout;
+        });
+    }
+
+    init() {
+        User.getProfile().then((profile) => {
+            if (profile.organizations.length > 0) {
+                this.show('/app/dashboard');
+            }
         });
     }
 }

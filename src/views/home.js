@@ -37,17 +37,29 @@ let layout = {
 
 export default class Home extends JetView {
     config() {
-        return User.getProfile().then((profile) => {
-            if (profile.organizations.length > 0) {
-                this.app.show('/app/dashboard');
-            } else {
-                this.app.show('/registration');
-            }
+        return layout;
+        // return User.getProfile().then((profile) => {
+        //     if (profile.organizations.length > 0) {
+        //         this.app.show('/app/dashboard');
+        //     } else {
+        //         this.app.show('/registration');
+        //     }
+        //
+        //     return null;
+        // }).catch((err) => {
+        //     console.log(err);
+        //     return layout;
+        // });
+    }
 
-            return null;
-        }).catch((err) => {
-            console.log(err);
-            return layout;
+
+    init() {
+        User.getProfile().then((profile) => {
+            if (profile.organizations.length > 0) {
+                this.show('/app/dashboard');
+            } else {
+                this.show('/registration');
+            }
         });
     }
 

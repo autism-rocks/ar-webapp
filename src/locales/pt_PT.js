@@ -35,4 +35,5 @@ export default {
     'ORGANIZATION_CREATED': 'A Instituição foi criada',
     'ERROR_CREATING_ORGANIZATION': 'Ocorreu um erro a criar a Instituição',
     'ORGANIZATION_ALREADY_EXISTS': 'Já existe uma instituição com o mesmo nome ou email',
+    'ERROR_UPDATING_PROFILE': 'Ocorreu um erro ao actualizar o perfil de utilizador',
 };
