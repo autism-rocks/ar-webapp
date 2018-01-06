@@ -199,5 +199,12 @@ export default class DevelopmentModelView extends JetView {
     $$("developmentModelTreeTable").editCancel();
     $$('developmentModelTreeTable').define('url', treetableUrl);
     $$('developmentModelTreeTable').refresh();
+
+		webix.ajax('/ar/participant/'+ url[0].params.id).then((res) => {
+			res = res.json();
+			$$("title").parse({title: res.name});
+		}).catch(() => {
+			$$("title").parse({});
+		})
   }
 }
