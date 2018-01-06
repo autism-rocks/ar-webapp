@@ -6,7 +6,7 @@ import LoginUserMenu from 'menus/login'
 let layout = {
     cols: [
         {
-            template: 'Logo and intro text',
+            template: '<img src="/assets/imgs/logo.png" width="100%" />',
             gravity: 0.4
         },
         {
@@ -45,4 +45,3 @@ export default class Home extends JetView {
     }
 
 }
-
