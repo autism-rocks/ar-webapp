@@ -15,9 +15,8 @@ webix.ready(function () {
 		start: '/home'
 	});
 
-	app.attachEvent('app:error:resolve', function (name, err) {
-		window.console.error(err);
-		webix.delay(() => this.show('/error'));
+	app.attachEvent('app:error', function (name, err) {
+		window.console.error(name, err);
 	});
 	app.render();
 

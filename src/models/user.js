@@ -8,6 +8,7 @@ let refreshProfile = () => webix.ajax('/ar/user/profile')
     .catch((err) => {
         userProfile = null;
         throw err;
+        return null;
     });
 
 
@@ -15,7 +16,7 @@ let getProfile = () => new Promise((resolve, reject) => {
     if (userProfile) {
         resolve(userProfile);
     } else {
-        refreshProfile().then(resolve).catch(reject);
+        return refreshProfile().then(resolve).fail(reject);
     }
 });
 

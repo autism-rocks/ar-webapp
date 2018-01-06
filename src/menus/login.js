@@ -1,62 +1,27 @@
-import {JetView, plugins} from "webix-jet";
+import {JetView} from "webix-jet";
+import i18n from 'locales/i18n'
 
-const menudata = [
-    {
-        id: "main", value: "Main", open: true, data: [
-        {id: "dashboard", value: "Dashboard", icon: "home", $css: "dashboard", details: "reports and statistics"},
-        {id: "error", value: "Orders", icon: "check-square-o", $css: "orders", details: "order reports and editing"},
-        {id: "products", value: "Products", icon: "cube", $css: "products", details: "all products"},
-        {id: "product_edit", value: "Product Edit", icon: "pencil-square-o", details: "changing product data"}
-    ]
-    },
-    {
-        id: "components", open: true, value: "Components", data: [
-        {id: "datatables", value: "Datatables", icon: "table", details: "datatable examples"},
-        {id: "charts", value: "Charts", icon: "bar-chart-o", details: "charts examples"},
-        {id: "forms", value: "Forms", icon: "list-alt", details: "forms examples"}
 
-    ]
-    },
-    {
-        id: "uis", value: "UI Examples", open: 1, data: [
-        {id: "calendar", value: "My Calendar", icon: "calendar", details: "calendar example"},
-        {id: "files", value: "File Manager", icon: "folder-open-o", details: "file manager example"}
-
-    ]
-    }
-];
-
-export default class MenuView extends JetView {
+export default class LoginMenuView extends JetView {
     config() {
         return {
-            width: 200,
-            view: "sidebar",
-            id: "app:menu",
-            // type: "menu",
-            css: "menu",
-            activeTitle: true, select: true,
-            tooltip: {
-                template: function (obj) {
-                    return obj.$count ? "" : obj.details;
-                }
-            },
-            on: {
-                onBeforeSelect: function (id) {
-                    if (this.getItem(id).$count) {
-                        return false;
-                    }
+            view: "menu",
+            // layout: 'y',
+            // css: "menu", select: true,
+            data: [
+                {
+                    id: "facebookLogin",
+                    href: '/ar/auth/facebook',
+                    value: i18n.t('login.button.facebook'),
+                    icon: "facebook"
                 },
-                onAfterSelect: function (id) {
-                    var item = this.getItem(id);
-                    webix.$$("title").parse({title: item.value, details: item.details});
+                {
+                    id: "googleLogin",
+                    href: '/ar/auth/google',
+                    value: i18n.t('login.button.google'),
+                    icon: "google"
                 }
-            }
+            ]
         };
     }
-
-    init() {
-        webix.$$("app:menu").parse(menudata);
-    }
-
-
 }

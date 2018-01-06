@@ -1,35 +1,27 @@
 import {JetView} from 'webix-jet';
 import i18n from 'locales/i18n';
 import User from '../models/user';
+import LoginUserMenu from 'menus/login'
 
 let layout = {
     cols: [
         {
-            template: 'BigView text',
-            gravity: 0.5
+            template: 'Logo and intro text',
+            gravity: 0.4
         },
         {
-            gravity: 0.5,
+            gravity: 0.6,
             rows: [
-                {type: 'header', template: i18n.t('login.header')},
                 {
-                    view: 'button',
-                    value: i18n.t('login.facebook.button'),
-                    href: '/ar/auth/facebook',
-                    type: 'form',
-                    click: function () {
-                        window.location = this.config.href;
-                    }
+                    template: '<h1>' + i18n.t('login.title') + '</h1>', 'css': 'title',
+                    borderless: true,
+                    height: 100
                 },
                 {
-                    view: 'button',
-                    value: i18n.t('login.google.button'),
-                    href: '/ar/auth/google',
-                    type: 'form',
-                    click: function () {
-                        window.location = this.config.href;
-                    }
-                }
+                    template: '<p>' + i18n.t('login.info') + '</p>',
+                    maxHeight: 150
+                },
+                LoginUserMenu
             ]
         }
     ]
@@ -38,18 +30,6 @@ let layout = {
 export default class Home extends JetView {
     config() {
         return layout;
-        // return User.getProfile().then((profile) => {
-        //     if (profile.organizations.length > 0) {
-        //         this.app.show('/app/dashboard');
-        //     } else {
-        //         this.app.show('/registration');
-        //     }
-        //
-        //     return null;
-        // }).catch((err) => {
-        //     console.log(err);
-        //     return layout;
-        // });
     }
 
 
@@ -60,6 +40,7 @@ export default class Home extends JetView {
             } else {
                 this.show('/registration');
             }
+        }).catch(() => {
         });
     }
 

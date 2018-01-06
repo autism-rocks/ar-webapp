@@ -1,10 +1,7 @@
 
 
 const layout = {
-	type: 'clean',
-	rows:[
-		{template: 'Home Dashboard'}
-	]
+    template: "Dashboard"
 };
 
 export default layout;

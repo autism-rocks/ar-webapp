@@ -1,52 +1,63 @@
-import {JetView, plugins} from "webix-jet";
+import {
+  JetView,
+  plugins
+} from 'webix-jet';
+import i18n from 'locales/i18n'
 
-const menudata = [
-	{id: "main", value: "Main", open: true, data:[
-		{ id: "dashboard", value: "Dashboard", icon: "home", $css: "dashboard", details:"reports and statistics"},
-		{ id: "orders", value: "Orders", icon: "check-square-o", $css: "orders", details:"order reports and editing"},
-		{ id: "products", value: "Products", icon: "cube", $css: "products", details:"all products"},
-		{ id: "product_edit", value: "Product Edit", icon: "pencil-square-o", details: "changing product data"}
-	]},
-	{id: "components", open: true, value:"Components", data:[
-		{ id: "datatables", value: "Datatables", icon: "table", details: "datatable examples" },
-		{ id: "charts", value: "Charts", icon: "bar-chart-o", details: "charts examples"},
-		{ id: "forms", value: "Forms", icon: "list-alt", details: "forms examples"}
+export function reloadSidebarData() {
 
-	]},
-	{id: "uis", value:"UI Examples", open:1, data:[
-		{ id: "calendar", value: "My Calendar", icon: "calendar", details: "calendar example" },
-		{ id: "files", value: "File Manager", icon: "folder-open-o", details: "file manager example" }
+  let menudata = [];
 
-	]}
-];
+  webix.ajax('/ar/participants').then((res) => {
+    res = res.json();
+    try {
+      if (res.length == 0) {
+        menudata.push({
+          id: 'add_participant',
+          value: i18n.t('sidebar.add_participant'),
+          icon: 'plus-circle',
+          details: i18n.t('sidebar.add_participant.description')
+        })
+      } else {
+        res.forEach((p) => {
+          menudata.push({
+            id: 'participantMenu'+p.id,
+            value: p.name,
+            icond: 'user',
+            open: true,
+            data: [
+              {id: 'participant?id='+p.id, icon: 'user', value:i18n.t('sidebar.participant.dashboard')},
+              {id: 'development_model?ref=autism-rocks&id='+p.id, icon: 'stethoscope', value:i18n.t('sidebar.participant.autismrocks')}
+            ]
+          })
+        });
+      }
+      webix.$$('app:sidebar').clearAll();
+      webix.$$('app:sidebar').parse(menudata);
+    } catch (e) {
+      console.log(e);
+    }
+  });
 
-export default class MenuView extends JetView{
-	init(){
-		webix.$$("app:menu").parse(menudata);
-		this.use(plugins.Menu, "app:menu");
-	}	
-	config(){
-		return {
-			width: 200,
-			view: "tree", id: "app:menu",
-			type: "menu", css: "menu",
-			activeTitle: true, select: true,
-			tooltip: {
-				template: function(obj){
-					return obj.$count?"":obj.details;
-				}
-			},
-			on:{
-				onBeforeSelect:function(id){
-					if(this.getItem(id).$count){
-						return false;
-					}
-				},
-				onAfterSelect:function(id){
-					var item = this.getItem(id);
-					webix.$$("title").parse({title: item.value, details: item.details});
-				}
-			}
-		};
-	}
+}
+
+
+
+export default class SidebarMenuView extends JetView {
+  config() {
+    return {
+      width: 200,
+      view: 'sidebar',
+      id: 'app:sidebar',
+      css: 'menu',
+      // activeTitle: true,
+      // select: true
+    };
+  }
+
+  init() {
+    reloadSidebarData();
+  }
+
+
 }

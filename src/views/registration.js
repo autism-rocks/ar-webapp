@@ -133,13 +133,14 @@ let layout = {
     cols: [
         {
             margin: 40,
+            id:'registration:profile',
             css: 'registration_profile',
             borderless: true,
-            template: () => {
+            template: (obj) => {
                 var html = '';
-                html += '<img class="photo" src="' + userProfile.profile_photo + '" />';
-                html += '<span class="name">' + userProfile.display_name + '</span>';
-                html += '<span class="email">' + userProfile.email + '</span>';
+                html += '<img class="photo" src="' + obj.profile_photo + '" />';
+                html += '<span class="name">' + obj.display_name + '</span>';
+                html += '<span class="email">' + obj.email + '</span>';
                 return html;
             },
             gravity: 0.3
@@ -165,17 +166,17 @@ let layout = {
 
 export default class Registration extends JetView {
     config() {
-        return User.getProfile().then((profile) => {
-            userProfile = profile;
-            return layout;
-        });
+        return layout;
     }
 
     init() {
-        User.getProfile().then((profile) => {
+        User.refreshProfile().then((profile) => {
+            $$('registration:profile').parse(profile);
             if (profile.organizations.length > 0) {
                 this.show('/app/dashboard');
             }
+        }).catch(() => {
+            this.show('/home')
         });
     }
 }

@@ -7,7 +7,7 @@ export default class UserMenu extends JetView {
     config() {
         // return layout;
         return User.getProfile().then((profile) => {
-            layout.data = profile;
+            profileIcon.data = profile;
             return layout;
         })
     }
@@ -17,18 +17,32 @@ export default class UserMenu extends JetView {
     }
 }
 
-const layout = {
+let profileIcon = {
     height: 46,
     css: 'header_person',
     borderless: true,
-    width: 180,
-    // data: {id: 3, name: 'Oliver Parr'},
+    align: "right",
+    width: 150,
     template: function (obj) {
-        var html = '<div style="height:100%;width:100%;" onclick=\'webix.$$("profilePopup").show(this)\'>';
-        html += '<img class="photo" src="'+ obj.profile_photo +'" /><span class="name">' + obj.display_name + '</span>';
-        html += '<span class="webix_icon fa-angle-down"></span></div>';
-        return html;
+        return '<img class="photo" src="' + obj.profile_photo + '" /><span class="display_name">'+obj.display_name+'</span>';
     }
 };
 
-
+let layout = {
+    cols: [
+        {},
+        profileIcon,
+        {
+            view: "icon",
+            align: "right",
+            icon: "bars",
+            click: function () {
+                if ($$("userProfileMenu").config.hidden) {
+                    $$("userProfileMenu").show();
+                }
+                else
+                    $$("userProfileMenu").hide();
+            }
+        }
+    ]
+};
