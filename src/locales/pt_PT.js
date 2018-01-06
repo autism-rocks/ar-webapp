@@ -47,6 +47,7 @@ export default {
     'participant.form.submit': 'Adicionar',
     'sidebar.participant.dashboard': 'Dashboard',
     'sidebar.participant.autismrocks': 'Perfil AutismRocks',
+    'sidebar.participant.details': 'Detalhes',
     'development_model.form.question': 'Questão',
     'development_model.form.level': 'Avaliação actual',
     'development_model.form.previous_level': 'Avaliação anterior',
@@ -56,10 +57,14 @@ export default {
     'scale.many': 'Muitas vezes',
     'scale.always': 'Sempre',
     'development_model.form.save': 'Registar evolução',
+    'participant.settings.tab.data': 'Detalhes pessoais',
+    'participant.settings.tab.access': 'Configurar Acessos',
+    'sidebar.organization.members': 'Utilizadores',
 
     // Generic words/sentences
     'Male': 'Masculino',
     'Female': 'Feminino',
+    'Save': 'Guardar',
 
     // MESSAGES
     'ORGANIZATION_CREATED': 'A Instituição foi criada',

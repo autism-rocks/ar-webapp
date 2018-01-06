@@ -129,7 +129,7 @@ const toolbar = {
   view: "toolbar",
   cols: [{},
     {
-			id: "saveDevelopmentModelDate",
+      id: "saveDevelopmentModelDate",
       view: "datepicker",
       options: [{
         id: null,
@@ -145,32 +145,32 @@ const toolbar = {
       align: "right",
       width: 200,
       disabled: true,
-			click: function() {
-				webix.ajax()
-	        .headers({
-	          'Content-type': 'application/json'
-	        })
-	        .post($$("developmentModelTreeTable").config.url + '/record', {
-						date: $$("saveDevelopmentModelDate").getValue()
-					})
-	        .then((res) => {
-	            $$('saveDevelopmentModel').define('disabled', false);
-							$$('developmentModelTreeTable').load($$("developmentModelTreeTable").config.url);
-							// $$('developmentModelTreeTable').refresh();
-	        })
-	        .fail((res) => {
-	          window.console.error(res);
-	          let errorMessage = i18n.t('ERROR_RECORDING_PROGRESS');
-	          if (res.responseText) {
-	            errorMessage = i18n.t(JSON.parse(res.responseText).message);
-	          }
-	          webix.message({
-	            text: errorMessage,
-	            type: 'error',
-	            expire: 4000
-	          });
-	        });
-			}
+      click: function() {
+        webix.ajax()
+          .headers({
+            'Content-type': 'application/json'
+          })
+          .post($$("developmentModelTreeTable").config.url + '/record', {
+            date: $$("saveDevelopmentModelDate").getValue()
+          })
+          .then((res) => {
+            $$('saveDevelopmentModel').define('disabled', false);
+            $$('developmentModelTreeTable').load($$("developmentModelTreeTable").config.url);
+            // $$('developmentModelTreeTable').refresh();
+          })
+          .fail((res) => {
+            window.console.error(res);
+            let errorMessage = i18n.t('ERROR_RECORDING_PROGRESS');
+            if (res.responseText) {
+              errorMessage = i18n.t(JSON.parse(res.responseText).message);
+            }
+            webix.message({
+              text: errorMessage,
+              type: 'error',
+              expire: 4000
+            });
+          });
+      }
     }
   ]
 };
@@ -200,11 +200,14 @@ export default class DevelopmentModelView extends JetView {
     $$('developmentModelTreeTable').define('url', treetableUrl);
     $$('developmentModelTreeTable').refresh();
 
-		webix.ajax('/ar/participant/'+ url[0].params.id).then((res) => {
-			res = res.json();
-			$$("title").parse({title: res.name});
-		}).catch(() => {
-			$$("title").parse({});
-		})
+    webix.ajax('/ar/participant/' + url[0].params.id).then((res) => {
+      res = res.json();
+      $$("title").parse({
+        title: res.name,
+				details: i18n.t('development_model.title')
+      });
+    }).catch(() => {
+      $$("title").parse({});
+    })
   }
 }
