@@ -1,10 +1,22 @@
 import {JetView} from 'webix-jet';
+import i18n from 'locales/i18n'
+import User from 'models/user';
+import Participant from 'models/participant';
+import profile from 'modules/participantProfile';
+import summary from 'modules/autismRocksSummary';
 
 const layout = {
-  $subview: true
+  // template: "participant"
+  type: 'space',
+  // height: 500,
+  cols: [
+    summary,
+    profile
+    // autismRocksProfile
+  ]
 }
 
-export default class Participant extends JetView {
+export default class ParticipantView extends JetView {
     config() {
         return layout;
     }
@@ -14,12 +26,13 @@ export default class Participant extends JetView {
     }
 
     urlChange(view, url){
-      // this.show(url[2].page)
-      // console.log(url);
-      // // console.log(url);
-      //   if (url.length > 1) {
-      //     console.log(url);
-      //   }
-      //       // view.queryView({view:"segmented"}).setValue(url[1].page);
+      Participant.getParticipant(url[0].params.id).then((participant) => {
+        $$("title").parse({
+          title: participant.name,
+          details: i18n.t('Dashboard')
+        });
+      }).catch(() => {
+        $$("title").parse({});
+      })
     }
 }

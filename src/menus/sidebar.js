@@ -59,9 +59,23 @@ export function reloadSidebarData() {
 
         if (['ADMIN', 'HELPDESK'].indexOf(o.role) >= 0) {
           submenus.push({
-            id: 'users?name=' + o.name,
+            id: 'users?org=' + o.name,
             icon: 'users',
             value: i18n.t('sidebar.organization.members')
+          });
+
+          submenus.push({
+            id: 'organization_settings?org=' + o.name,
+            icon: 'gear',
+            value: i18n.t('sidebar.organization.settings')
+          });
+        }
+
+        if (['MEMBER'].indexOf(o.role) >= 0) {
+          submenus.push({
+            id: 'organization_helpdesk?org=' + o.name,
+            icon: 'phone',
+            value: i18n.t('sidebar.organization.helpdesk')
           });
         }
 

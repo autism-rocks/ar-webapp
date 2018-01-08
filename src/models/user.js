@@ -1,22 +1,22 @@
-let userProfile = null;
+let userProfile = {};
 
-let refreshProfile = () => webix.ajax('/ar/user/profile')
+let refreshProfile = (id) => webix.ajax('/ar/user/profile' + (id ? '/' + id : ''))
     .then((profile) => {
-        userProfile = profile.json();
-        return userProfile;
+        userProfile[id] = profile.json();
+        return userProfile[id];
     })
     .catch((err) => {
-        userProfile = null;
+        userProfile[id] = null;
         throw err;
         return null;
     });
 
 
-let getProfile = () => new Promise((resolve, reject) => {
-    if (userProfile) {
-        resolve(userProfile);
+let getProfile = (id) => new Promise((resolve, reject) => {
+    if (userProfile[id]) {
+        resolve(userProfile[id]);
     } else {
-        return refreshProfile().then(resolve).fail(reject);
+        return refreshProfile(id).then(resolve).fail(reject);
     }
 });
 

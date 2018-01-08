@@ -18,9 +18,13 @@ let body = {
                 if (obj.details) {
                   html += '<div class="details">(' + obj.details + ')</div>'
                 }
+
+                if (obj.image) {
+                  html = '<div class="header-wrapper"><img src="' + obj.image + '" width=50 height=50 />' + html + '</div>';
+                }
                 return html;
             },
-            data: {text: '', title: ''}
+            data: {text: '', title: '', image: ''}
         },
         {
             view: 'scrollview',
