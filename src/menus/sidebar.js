@@ -29,11 +29,11 @@ export function reloadSidebarData() {
         menudata.push({
           id: 'participantMenu' + p.id,
           value: p.name,
-          icon: 'user',
+          // icon: 'user',
           open: true,
           data: [{
               id: 'participant?id=' + p.id,
-              icon: 'user',
+              icon: 'dashboard',
               value: i18n.t('sidebar.participant.dashboard')
             },
             {

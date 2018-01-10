@@ -5,47 +5,19 @@ import {
 } from 'webix-jet'
 
 
-const scale = [{
-    id: 'frequency:1',
-    value: i18n.t('scale.never')
-  },
-  {
-    id: 'frequency:2',
-    value: i18n.t('scale.few')
-  },
-  {
-    id: 'frequency:3',
-    value: i18n.t('scale.some')
-  },
-  {
-    id: 'frequency:4',
-    value: i18n.t('scale.many')
-  },
-  {
-    id: 'frequency:5',
-    value: i18n.t('scale.always')
-  },
-  {
-    id: 'problem:1',
-    value: i18n.t('scale.serious_problem')
-  },
-  {
-    id: 'problem:2',
-    value: i18n.t('scale.problem')
-  },
-  {
-    id: 'problem:3',
-    value: i18n.t('scale.moderated_problem')
-  },
-  {
-    id: 'problem:4',
-    value: i18n.t('scale.minor_problem')
-  },
-  {
-    id: 'problem:5',
-    value: i18n.t('scale.not_a_problem')
+function scaleCellTemplate(obj, level) {
+  if (obj.scale) {
+    return '<span class="scale-header-option">' + i18n.t('scale.' + obj.scale + '.' + level) + '</span>'
+  } else if (obj.question) {
+    let checked = '';
+    if (obj.current_level == level || (obj.previous_level == level && !obj.current_level)) {
+      checked = 'checked'
+    }
+    return '<input type="radio" name="modelRowOption' + obj._id + '" value="' + level + '" ' + checked + '/>'
+  } else {
+    return '';
   }
-];
+}
 
 const treetable = {
   view: "treetable",
@@ -60,15 +32,19 @@ const treetable = {
       } else {
         obj.$css = '';
       }
+
+      if (obj.scale) {
+        obj.$css += ' scale-header';
+        obj.$height = 50;
+      }
     }
   },
-  // save: '/ar/development_model/pt/autism-rocks/2',
+
   columns: [{
       id: 'ref',
       header: 'Ref',
       width: 50
     },
-    //{ id: "id", header: "", css: { "text-align": "right" }, width: 50 },
     {
       id: "group",
       header: i18n.t('development_model.form.question'),
@@ -78,83 +54,103 @@ const treetable = {
       }
     },
     {
-      id: "previous_level",
-      header: i18n.t('development_model.form.previous_level'),
-      options: scale,
-      width: 200
+      id: "level1",
+      header: '',
+      width: 100,
+      template: function(obj) {
+        return scaleCellTemplate(obj, 1)
+      }
     },
     {
-      id: "current_level",
-      header: i18n.t('development_model.form.level'),
-      options: scale,
-      editor: 'select',
-      width: 200
+      id: "level2",
+      header: '',
+      width: 100,
+      template: function(obj) {
+        return scaleCellTemplate(obj, 2)
+      }
+    },
+    {
+      id: "level3",
+      header: '',
+      width: 100,
+      template: function(obj) {
+        return scaleCellTemplate(obj, 3)
+      }
+    },
+    {
+      id: "level4",
+      header: '',
+      width: 100,
+      template: function(obj) {
+        return scaleCellTemplate(obj, 4)
+      }
+    },
+    {
+      id: "level5",
+      header: '',
+      width: 100,
+      template: function(obj) {
+        return scaleCellTemplate(obj, 5)
+      }
     }
   ],
   on: {
+
+    onBeforeEditStart: function(id) {
+      if (id.column.indexOf('level') == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
 
     onEditorChange: function(id, value) {
       var item = this.getItem(id.row);
       $$("developmentModelTreeTable").editStop();
     },
 
-    onBeforeEditStart: function(id) {
+    onItemClick: function(id) {
       var item = this.getItem(id.row);
 
-      if (id.column == 'current_level') {
-        this.getColumnConfig("current_level").collection.filter(option => option.id.indexOf(item.scale) == 0);
-        // var country = this.getItem(id.row).country;
-        //
-        // var options = this.getColumnConfig("city").collection;
-        // options.filter(function(obj){
-        //     return obj.country == country;
-        // });
-      }
-
-      if (!item.question) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-
-    onAfterEditStop: function(change, editor) {
-      // console.log(arguments);
-      let item = this.getItem(editor.row);
-      let table = $$("developmentModelTreeTable");
-      webix.ajax()
-        .headers({
-          'Content-type': 'application/json'
-        })
-        .post(table.config.url, JSON.stringify(item))
-        .then((res) => {
-          var enableSaveButton = true;
-          table.eachRow(
-            function(row) {
-              let item = table.getItem(row);
-              if (item.question) {
-                enableSaveButton = enableSaveButton && item.current_level;
+      if (id.column.indexOf('level') == 0) {
+        item.current_level = id.column.replace('level', '');
+        item.$css = '';
+        let table = $$("developmentModelTreeTable");
+        webix.ajax()
+          .headers({
+            'Content-type': 'application/json'
+          })
+          .post(table.config.url, JSON.stringify(item))
+          .then((res) => {
+            var enableSaveButton = true;
+            table.eachRow(
+              function(row) {
+                let item = table.getItem(row);
+                if (item.question) {
+                  enableSaveButton = enableSaveButton && item.current_level;
+                }
               }
+            );
+
+            if (enableSaveButton) {
+              $$('saveDevelopmentModel').define('disabled', false);
             }
-          );
 
-          if (enableSaveButton) {
-            $$('saveDevelopmentModel').define('disabled', false);
-          }
-
-        })
-        .fail((res) => {
-          window.console.error(res);
-          let errorMessage = i18n.t('ERROR_UPDATING_EVALUATION');
-          if (res.responseText) {
-            errorMessage = i18n.t(JSON.parse(res.responseText).message);
-          }
-          webix.message({
-            text: errorMessage,
-            type: 'error',
-            expire: 4000
+          })
+          .fail((res) => {
+            window.console.error(res);
+            let errorMessage = i18n.t('ERROR_UPDATING_EVALUATION');
+            if (res.responseText) {
+              errorMessage = i18n.t(JSON.parse(res.responseText).message);
+            }
+            webix.message({
+              text: errorMessage,
+              type: 'error',
+              expire: 4000
+            });
           });
-        });
+      }
     }
   }
 };
@@ -187,8 +183,14 @@ const toolbar = {
           .post($$("developmentModelTreeTable").config.url + '/record', {
             date: $$("saveDevelopmentModelDate").getValue()
           })
+          .then((res) => res.json())
           .then((res) => {
-            $$('saveDevelopmentModel').define('disabled', false);
+            $$('saveDevelopmentModel').define('disabled', true);
+            webix.message({
+              text: i18n.t(res.message),
+              type: 'success',
+              expire: 4000
+            });
             $$('developmentModelTreeTable').load($$("developmentModelTreeTable").config.url);
             // $$('developmentModelTreeTable').refresh();
           })

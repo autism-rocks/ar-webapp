@@ -6,7 +6,7 @@ Technical details
 - clone repo from git
 - run `npm install`
 - run `npm start`
-- open `http://localhost:8080` in a browser 
+- open `http://localhost:8080` in a browser
 
 ### Deploy
 
@@ -16,3 +16,9 @@ Technical details
 ### Other commands
 
 - `npm run lint` - will validate all js code in the project
+
+
+## Deployment on GCP App Engine
+
+
+  gcloud app deploy --project autism-rocks
