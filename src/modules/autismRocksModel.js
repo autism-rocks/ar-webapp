@@ -7,7 +7,7 @@ import {
 
 function scaleCellTemplate(obj, level) {
   if (obj.scale) {
-    return '<span class="scale-header-option">' + i18n.t('scale.' + obj.scale + '.' + level) + '</span>'
+    return '<span class="scale-header-option">' + i18n.t('scale.' + obj.scale + '.' + level) + '</span>';
   } else if (obj.question) {
     let checked = '';
     if (obj.current_level == level || (obj.previous_level == level && !obj.current_level)) {
@@ -22,6 +22,7 @@ function scaleCellTemplate(obj, level) {
 const treetable = {
   view: "treetable",
   id: "developmentModelTreeTable",
+  css: 'devmodel-form',
   editable: true,
   hover: "hover",
   scheme: {
@@ -37,9 +38,17 @@ const treetable = {
         obj.$css += ' scale-header';
         obj.$height = 50;
       }
+
+      if (!obj.question && !obj.id_parent) {
+        obj.$css += ' top-level-header';
+      }
     }
   },
-
+  tooltip: {
+    template: function(obj) {
+      return obj.description ? '<div class="tooltip-description">'+obj.description+'</div>' : '';
+    }
+  },
   columns: [{
       id: 'ref',
       header: 'Ref',
@@ -50,7 +59,11 @@ const treetable = {
       header: i18n.t('development_model.form.question'),
       fillspace: true,
       template: function(obj, common) {
-        return common.treetable(obj, common) + "<span>" + (obj.group ? obj.group : obj.question) + "</span>";
+        let text = "<span>" + (obj.group ? obj.group : obj.question) + "</span>";
+        if (obj.description) {
+          text += '<span class="webix_icon fa-question-circle"></span>';
+        }
+        return common.treetable(obj, common) + text;
       }
     },
     {
