@@ -3,6 +3,7 @@ import {
 } from 'webix-jet';
 import i18n from 'locales/i18n'
 import participantForm from 'forms/participantDetails';
+import participantUserAccess from 'modules/participantUserAccess'
 import {
   reloadSidebarData
 } from 'menus/sidebar';
@@ -76,9 +77,15 @@ const participantAccessTab = {
   width: 250,
   body: {
     rows: [{
-      template: 'Utilizadores',
-      type: 'section'
-    }]
+        template: i18n.t('access.section.users'),
+        type: 'section'
+      },
+      participantUserAccess,
+      {
+        template: i18n.t('access.section.institutions'),
+        type: 'section'
+      }
+    ]
 
   }
 };

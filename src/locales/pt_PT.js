@@ -72,10 +72,14 @@ export default {
     'development_model.tab.summary': 'Sumário',
     'participant.settings.tab.data': 'Detalhes pessoais',
     'participant.settings.tab.access': 'Configurar Acessos',
+    'access.user.email.placeholder': 'email@exemplo.com',
+    'access.user.add': 'Adicionar utilizador',
     'sidebar.organization.members': 'Utilizadores',
     'sidebar.organization.settings': 'Configuraçãoes',
     'sidebar.organization.helpdesk': 'Contactar',
     'users.details.link': 'Ficha completa',
+    'access.section.users': 'Utilizadores',
+    'access.section.institutions': 'Instituições',
 
     // Generic words/sentences
     'Male': 'Masculino',
@@ -88,6 +92,11 @@ export default {
     'City': 'Cidade',
     'Role': 'Permissões',
     'Photo': 'Foto',
+    'Admin': 'Administrador',
+    'Editor': 'Permissões de edição',
+    'Viewer': 'Acesso de leitura',
+    'Terapeut': 'Terapeuta',
+    'Remove': 'Remover Acesso',
 
     // MESSAGES
     'ORGANIZATION_CREATED': 'A Instituição foi criada',
