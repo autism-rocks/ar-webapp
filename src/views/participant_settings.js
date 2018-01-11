@@ -4,6 +4,7 @@ import {
 import i18n from 'locales/i18n'
 import participantForm from 'forms/participantDetails';
 import participantUserAccess from 'modules/participantUserAccess'
+import participantOrganizationAccess from 'modules/participantOrganizationAccess'
 import {
   reloadSidebarData
 } from 'menus/sidebar';
@@ -84,7 +85,8 @@ const participantAccessTab = {
       {
         template: i18n.t('access.section.institutions'),
         type: 'section'
-      }
+      },
+      participantOrganizationAccess
     ]
 
   }

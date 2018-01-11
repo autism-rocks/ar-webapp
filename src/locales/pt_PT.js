@@ -80,6 +80,7 @@ export default {
     'users.details.link': 'Ficha completa',
     'access.section.users': 'Utilizadores',
     'access.section.institutions': 'Instituições',
+    'access.organization.add': 'Adicionar Instituição',
 
     // Generic words/sentences
     'Male': 'Masculino',
