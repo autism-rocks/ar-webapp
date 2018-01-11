@@ -39,7 +39,7 @@ const treetable = {
         obj.$height = 50;
       }
 
-      if (!obj.question && !obj.id_parent) {
+      if (obj.id.split('.').length == 1) {
         obj.$css += ' top-level-header';
       }
     }
