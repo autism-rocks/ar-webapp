@@ -182,6 +182,7 @@ export default class ParticipantUserAccess extends JetView {
     }).config.url = dataUrl;
 
     table.config.url = dataUrl;
+    table.clearAll();
     table.load(dataUrl);
   }
 }
