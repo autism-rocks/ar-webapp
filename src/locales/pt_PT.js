@@ -100,6 +100,7 @@ export default {
     'Editor': 'Permissões de edição',
     'Viewer': 'Acesso de leitura',
     'Terapeut': 'Terapeuta',
+    'Member': 'Membro',
     'Remove': 'Remover Acesso',
     'Tags': 'Tags',
     'Title': 'Título',

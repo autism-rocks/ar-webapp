@@ -67,16 +67,16 @@ const usersTable = {
       editor: 'select',
       options: [{
         id: 'ADMIN',
-        value: 'Admin'
+        value: i18n.t('Admin')
       }, {
         id: 'HELPDESK',
-        value: 'Helpdesk'
+        value: i18n.t('Helpdesk')
       }, {
         id: 'TERAPEUT',
-        value: 'Terapeut'
+        value: i18n.t('Terapeut')
       }, {
         id: 'MEMBER',
-        value: 'Member'
+        value: i18n.t('Member')
       }],
       header: [{
         text: i18n.t('Role')
@@ -89,7 +89,33 @@ const usersTable = {
       width: 150,
       template: '<a route="/app/user_details?id=#id#">'+i18n.t('users.details.link')+'</a>'
     }
-  ]
+  ],
+  on: {
+
+    onAfterEditStop: function(change, id) {
+      let item = this.getItem(id.row);
+      let self = this;
+      webix.ajax()
+        .headers({
+          'Content-type': 'application/json'
+        })
+        .post(this.config.url + '/' + item.id, JSON.stringify(item))
+        .fail((res) => {
+          window.console.error(res);
+          let errorMessage = i18n.t('ERROR_SAVING_USER');
+          if (res.responseText) {
+            errorMessage = i18n.t(JSON.parse(res.responseText).message);
+          }
+          webix.message({
+            text: errorMessage,
+            type: 'error',
+            expire: 4000
+          });
+          self.clearAll();
+          self.load(self.config.url)
+        });
+    },
+  }
 }
 
 const layout = {
