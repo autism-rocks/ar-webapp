@@ -114,13 +114,6 @@ export default class UsersView extends JetView {
     });
 
     $$('usersTable').clearAll();
-    $$('usersTable').define('url', '/ar/organization/' + url[0].params.org + '/users')
-    // this.show(url[2].page)
-    // console.log(url);
-    // // console.log(url);
-    //   if (url.length > 1) {
-    //     console.log(url);
-    //   }
-    //       // view.queryView({view:"segmented"}).setValue(url[1].page);
+    $$('usersTable').define('url', '/ar/organization/' + url[0].params.org + '/users');
   }
 }

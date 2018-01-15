@@ -57,6 +57,14 @@ export function reloadSidebarData() {
 
         let submenus = [];
 
+        if (['ADMIN'].indexOf(o.role) >= 0) {
+          submenus.push({
+            id: 'resources?org=' + o.name,
+            icon: 'newspaper-o',
+            value: i18n.t('sidebar.organization.resources')
+          });
+        }
+
         if (['ADMIN', 'HELPDESK'].indexOf(o.role) >= 0) {
           submenus.push({
             id: 'users?org=' + o.name,

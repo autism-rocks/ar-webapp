@@ -81,6 +81,9 @@ export default {
     'access.section.users': 'Utilizadores',
     'access.section.institutions': 'Instituições',
     'access.organization.add': 'Adicionar Instituição',
+    'sidebar.organization.resources': 'Recursos',
+    'resources.details.link': 'Link',
+    'resources.new.add': 'Adicionar novo recurso',
 
     // Generic words/sentences
     'Male': 'Masculino',
@@ -98,6 +101,10 @@ export default {
     'Viewer': 'Acesso de leitura',
     'Terapeut': 'Terapeuta',
     'Remove': 'Remover Acesso',
+    'Tags': 'Tags',
+    'Title': 'Título',
+    'Description': 'Descrição',
+    'Url': 'Endereço',
 
     // MESSAGES
     'ORGANIZATION_CREATED': 'A Instituição foi criada',
