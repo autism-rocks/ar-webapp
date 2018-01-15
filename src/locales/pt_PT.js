@@ -84,6 +84,7 @@ export default {
     'sidebar.organization.resources': 'Recursos',
     'resources.details.link': 'Link',
     'resources.new.add': 'Adicionar novo recurso',
+    'resources.alert.remove.title': 'Apagar recurso?',
 
     // Generic words/sentences
     'Male': 'Masculino',
@@ -106,6 +107,10 @@ export default {
     'Title': 'Título',
     'Description': 'Descrição',
     'Url': 'Endereço',
+    'Language': 'Linguagem',
+    'Details': 'Detalhes',
+    'Yes': 'Sim',
+    'No': 'Não',
 
     // MESSAGES
     'ORGANIZATION_CREATED': 'A Instituição foi criada',

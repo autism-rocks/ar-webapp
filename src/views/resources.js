@@ -9,8 +9,7 @@ const resourcesTable = {
   editable: true,
   view: 'datatable',
   hover: 'hover',
-  columns: [
-    {
+  columns: [{
       id: "title",
       fillspace: true,
       editor: 'text',
@@ -24,7 +23,7 @@ const resourcesTable = {
       id: "description",
       width: 150,
       fillspace: true,
-      editor:'popup',
+      editor: 'popup',
       header: [{
         text: i18n.t('Description')
       }, {
@@ -62,15 +61,14 @@ const resourcesTable = {
       }],
       template: function(obj) {
 
-          return obj.tags ? obj.tags.split(' ').map((tag) => {
-              return '<span class="status status2">' + tag + '</span>';
-          }).join(' ') : '';
+        return obj.tags ? obj.tags.split(' ').map((tag) => {
+          return '<span class="status status2">' + tag + '</span>';
+        }).join(' ') : '';
       }
     },
     {
-      id: 'details',
-      width: 150,
-      template: '<a href="#url#" target="_blank">'+i18n.t('resources.details.link')+'</a>'
+      width: 50,
+      template: '<a href="#url#" target="_blank">' + i18n.t('resources.details.link') + '</a>'
     },
     {
       width: 50,
@@ -81,26 +79,37 @@ const resourcesTable = {
     remove: function(ev, id) {
       var item = this.getItem(id.row);
       var table = this;
-      webix.ajax()
-        .headers({
-          'Content-type': 'application/json'
-        })
-        .del(this.config.url + '/' + item.id)
-        .then(() => {
-          table.remove(id);
-        })
-        .fail((res) => {
-          window.console.error(res);
-          let errorMessage = i18n.t('ERROR_SAVING_RESOURCE');
-          if (res.responseText) {
-            errorMessage = i18n.t(JSON.parse(res.responseText).message);
+
+      webix.confirm({
+        title: i18n.t('resources.alert.remove.title'),
+        ok: i18n.t('Yes'),
+        cancel: i18n.t('No'),
+        text: item.title,
+        callback: function(result) { //setting callback
+          if (result) {
+            webix.ajax()
+              .headers({
+                'Content-type': 'application/json'
+              })
+              .del(table.config.url + '/' + item.id)
+              .then(() => {
+                table.remove(id);
+              })
+              .fail((res) => {
+                window.console.error(res);
+                let errorMessage = i18n.t('ERROR_SAVING_RESOURCE');
+                if (res.responseText) {
+                  errorMessage = i18n.t(JSON.parse(res.responseText).message);
+                }
+                webix.message({
+                  text: errorMessage,
+                  type: 'error',
+                  expire: 4000
+                });
+              });
           }
-          webix.message({
-            text: errorMessage,
-            type: 'error',
-            expire: 4000
-          });
-        });
+        }
+      });
     }
   },
   on: {
@@ -131,40 +140,38 @@ const resourcesTable = {
 
 const toolbar = {
   view: "toolbar",
-  cols: [
-    {
-      view: "button",
-      type: 'iconButton',
-      icon: 'plus',
-      label: i18n.t('resources.new.add'),
-      width: 250,
-      click: function() {
-        webix.ajax()
-          .headers({
-            'Content-type': 'application/json'
-          })
-          .post($$("resourcesTable").config.url)
-          .then((res) => res.json())
-          .then((res) => {
-            $$('resourcesTable').clearAll();
-            $$('resourcesTable').load($$("resourcesTable").config.url);
-            // $$('developmentModelTreeTable').refresh();
-          })
-          .fail((res) => {
-            window.console.error(res);
-            let errorMessage = i18n.t('ERROR_ADDING_RESOURCE');
-            if (res.responseText) {
-              errorMessage = i18n.t(JSON.parse(res.responseText).message);
-            }
-            webix.message({
-              text: errorMessage,
-              type: 'error',
-              expire: 4000
-            });
+  cols: [{
+    view: "button",
+    type: 'iconButton',
+    icon: 'plus',
+    label: i18n.t('resources.new.add'),
+    width: 250,
+    click: function() {
+      webix.ajax()
+        .headers({
+          'Content-type': 'application/json'
+        })
+        .post($$("resourcesTable").config.url)
+        .then((res) => res.json())
+        .then((res) => {
+          $$('resourcesTable').clearAll();
+          $$('resourcesTable').load($$("resourcesTable").config.url);
+          // $$('developmentModelTreeTable').refresh();
+        })
+        .fail((res) => {
+          window.console.error(res);
+          let errorMessage = i18n.t('ERROR_ADDING_RESOURCE');
+          if (res.responseText) {
+            errorMessage = i18n.t(JSON.parse(res.responseText).message);
+          }
+          webix.message({
+            text: errorMessage,
+            type: 'error',
+            expire: 4000
           });
-      }
+        });
     }
-  ]
+  }]
 };
 
 const layout = {
