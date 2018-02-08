@@ -4,6 +4,8 @@ import {
 import User from 'models/user'
 import i18n from 'locales/i18n'
 
+let org = null;
+
 const usersTable = {
   id: 'usersTable',
   editable: true,
@@ -87,7 +89,9 @@ const usersTable = {
     {
       id: 'details',
       width: 150,
-      template: '<a route="/app/user_details?id=#id#">'+i18n.t('users.details.link')+'</a>'
+      template: function(obj) {
+          return '<a route="/app/user_details?id='+ obj.id +'&org=' + org + '"">'+i18n.t('users.details.link')+'</a>'
+      }
     }
   ],
   on: {
@@ -132,14 +136,17 @@ export default class UsersView extends JetView {
   }
 
   urlChange(view, url) {
+
+    org = url[0].params.org;
+
     User.getProfile().then((p) => {
       $$("title").parse({
         title: i18n.t('sidebar.organization.members'),
-        details: p.organizations.filter(o => url[0].params.org == o.name).map(o => o.display_name).join()
+        details: p.organizations.filter(o => org == o.name).map(o => o.display_name).join()
       });
     });
 
     $$('usersTable').clearAll();
-    $$('usersTable').define('url', '/ar/organization/' + url[0].params.org + '/users');
+    $$('usersTable').define('url', '/ar/organization/' + org + '/users');
   }
 }

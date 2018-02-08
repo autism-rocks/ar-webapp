@@ -14,7 +14,13 @@ let body = {
             id: 'title',
             css: 'title',
             template: function(obj) {
-                let html = '<div class="header">'+ obj.title +'</div>';
+                let html = '<div class="application-header">';
+
+                if (obj.back) {
+                  html += '<a route="'+ obj.back.route +'" /><span class="webix_icon fa-'+ obj.back.icon +'"></span>' + obj.back.title + '</a>'
+                }
+
+                html +=' <div class="header">'+ obj.title +'</div>';
                 if (obj.details) {
                   html += '<div class="details">(' + obj.details + ')</div>'
                 }
@@ -22,6 +28,8 @@ let body = {
                 if (obj.image) {
                   html = '<div class="header-wrapper"><img src="' + obj.image + '" width=50 height=50 />' + html + '</div>';
                 }
+
+                html += '</div>'
                 return html;
             },
             data: {text: '', title: '', image: ''}

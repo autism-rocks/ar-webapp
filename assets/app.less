@@ -721,18 +721,18 @@ Layout toolbar
 
   .top-level-header {
     background-color: beige;
-    font-weight:bold;
-    font-size: 16px;
   }
 
   .scale-header {
     background-color: floralwhite;
   }
 
-  .scale-header .scale-header-option {
+  .scale-header .scale-header-option, .question-title {
     white-space: normal;
     line-height: 20px;
     display: block;
+    padding-top:8px;
+    float:left;
   }
 
   .webix_column > div,
@@ -743,6 +743,18 @@ Layout toolbar
   .webix_cell .webix_icon {
     padding-left: 8px;
     color: red;
+    float:left;
+    padding-top:8px;
+  }
+}
+
+.application-header {
+  a {
+    display: block;
+    float: left;
+    padding-right: 8px;
+    margin-right: 8px;
+    border-right:1px solid #ccc;
   }
 }
 

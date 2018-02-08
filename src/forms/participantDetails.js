@@ -20,6 +20,7 @@ const form = {
       label: i18n.t('participant.form.dob.label'),
       placeholder: i18n.t('participant.form.dob.placeholder'),
       weekHeader: true,
+      required:true,
       labelWidth: 200
     },
     {

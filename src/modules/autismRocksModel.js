@@ -42,6 +42,10 @@ const treetable = {
       if (obj.id.split('.').length == 1) {
         obj.$css += ' top-level-header';
       }
+
+      // if (obj.question && obj.question.length > 100) {
+      //   obj.$height = 55;
+      // }
     }
   },
   tooltip: {
@@ -52,24 +56,28 @@ const treetable = {
   columns: [{
       id: 'ref',
       header: 'Ref',
-      width: 50
+      width: 60
     },
     {
       id: "group",
       header: i18n.t('development_model.form.question'),
       fillspace: true,
       template: function(obj, common) {
-        let text = "<span>" + (obj.group ? obj.group : obj.question) + "</span>";
+        let text = '';
+
         if (obj.description) {
           text += '<span class="webix_icon fa-question-circle"></span>';
         }
+
+        text += "<span class='question-title'>" + (obj.group ? obj.group : obj.question) + "</span>";
+
         return common.treetable(obj, common) + text;
       }
     },
     {
       id: "level1",
       header: '',
-      width: 100,
+      width: 90,
       template: function(obj) {
         return scaleCellTemplate(obj, 1)
       }
@@ -77,7 +85,7 @@ const treetable = {
     {
       id: "level2",
       header: '',
-      width: 100,
+      width: 90,
       template: function(obj) {
         return scaleCellTemplate(obj, 2)
       }
@@ -85,7 +93,7 @@ const treetable = {
     {
       id: "level3",
       header: '',
-      width: 100,
+      width: 90,
       template: function(obj) {
         return scaleCellTemplate(obj, 3)
       }
@@ -93,7 +101,7 @@ const treetable = {
     {
       id: "level4",
       header: '',
-      width: 100,
+      width: 90,
       template: function(obj) {
         return scaleCellTemplate(obj, 4)
       }
@@ -101,7 +109,7 @@ const treetable = {
     {
       id: "level5",
       header: '',
-      width: 100,
+      width: 90,
       template: function(obj) {
         return scaleCellTemplate(obj, 5)
       }
@@ -116,7 +124,6 @@ const treetable = {
         return false;
       }
     },
-
 
     onEditorChange: function(id, value) {
       var item = this.getItem(id.row);

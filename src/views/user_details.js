@@ -2,10 +2,13 @@ import {
   JetView
 } from 'webix-jet';
 import User from 'models/user'
+import i18n from 'locales/i18n'
 
 const layout = {
+
   rows: [{
       id: 'userParticipantsList',
+      css: 'user-participant-list',
       view: 'menu',
       select: true,
       cols: [],
@@ -37,7 +40,12 @@ export default class UserDetails extends JetView {
     User.refreshProfile(url[0].params.id).then((userDetails) => {
       $$("title").parse({
         title: userDetails.display_name,
-        details: userDetails.email
+        details: userDetails.email,
+        back: {
+          route: '/app/users?org=' + url[0].params.org,
+          icon: 'users',
+          title: i18n.t('sidebar.organization.members')
+        }
       });
 
       $$('userParticipantsList').parse(userDetails.participants.map(p => {
@@ -46,6 +54,7 @@ export default class UserDetails extends JetView {
           view: 'button',
           icon: 'dashboard',
           type: 'icon',
+          selected: true,
           value: p.name
         }
       }));
