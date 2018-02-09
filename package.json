@@ -41,6 +41,7 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
+    "google-palette": "^1.0.0",
     "node-polyglot": "^2.2.2",
     "polyglot": "^0.5.0",
     "webix-jet": "^1.0.0"
