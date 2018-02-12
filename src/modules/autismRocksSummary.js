@@ -21,11 +21,10 @@ const layout = {
                 template: "#group#"
             },
             yAxis: {
-                start: 1,
+                start: 0,
                 end: 5,
-                step: 1
-                // ,
-                // template:function(obj){return 6-obj}
+                step: 1,
+                template:function(obj){ return obj > 0 ? obj : ''; }
             },
             origin: 0
         }
